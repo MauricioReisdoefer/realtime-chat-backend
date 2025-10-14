@@ -17,3 +17,10 @@ def create_user():
             'username': user.username
         }
     }, 201
+
+def get_all():
+    return User.query.all()
+
+def filter_by_id(name):
+    filtered = User.query.filter(User.name == name).all()
+    return filtered
