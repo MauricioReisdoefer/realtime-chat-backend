@@ -1,6 +1,8 @@
 from database import db
 from models.user_model import User
-from flask import request
+from flask import request, jsonify
+from flask_jwt_extended import create_access_token
+from datetime import timedelta
 
 def create_user():
     data = request.get_json()
@@ -24,3 +26,25 @@ def get_all():
 def filter_by_id(name):
     filtered = User.query.filter(User.name == name).all()
     return filtered
+
+def login():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+
+    user : User = User.query.filter_by(username=username).first()
+    if not user or not user.check_password(password):
+        return jsonify({'message': 'Credenciais inválidas'}), 401
+
+    access_token = create_access_token(
+        identity=user.id,
+        expires_delta=timedelta(hours=1)
+    )
+
+    return jsonify({
+        'access_token': access_token,
+        'user': {
+            'id': user.id,
+            'username': user.username
+        }
+    }), 200
