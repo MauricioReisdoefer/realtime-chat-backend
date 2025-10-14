@@ -4,14 +4,16 @@ from flask import request
 
 def create_user():
     data = request.get_json()
-    user = User(
-        name=data.get('name'),
-        password=data.get('password')
-    )
+    user = User(username=data.get('username'))
+    user.set_password(data.get('password'))  # usa o método certo
+
     db.session.add(user)
     db.session.commit()
+
     return {
-        'message': 'User criado com sucesso',
-        'data': user.toMap()
+        'message': 'User criado',
+        'data': {
+            'id': user.id,
+            'username': user.username
+        }
     }, 201
-    
