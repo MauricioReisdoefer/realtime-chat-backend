@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify
 from controller.user_controller import create_user as create_user_func, get_all, filter_by_id
 
-user_bp = Blueprint("user", url_prefix="/user")
+user_bp = Blueprint("user", import_name="user", url_prefix="/user")
 
 @user_bp.route('/create', methods=['POST'])
 def create_user():
