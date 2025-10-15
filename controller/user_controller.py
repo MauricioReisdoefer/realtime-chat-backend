@@ -29,10 +29,10 @@ def filter_by_id(name):
 
 def login():
     data = request.get_json()
-    username = data.get('username')
+    email = data.get('email')
     password = data.get('password')
 
-    user : User = User.query.filter_by(username=username).first()
+    user : User = User.query.filter_by(email=email).first()
     if not user or not user.check_password(password):
         return jsonify({'message': 'Credenciais inválidas'}), 401
 
