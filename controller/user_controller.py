@@ -6,8 +6,8 @@ from datetime import timedelta
 
 def create_user():
     data = request.get_json()
-    user = User(username=data.get('username'))
-    user.set_password(data.get('password'))  # usa o método certo
+    user = User(username=data.get('username'), email=data.get('email'))
+    user.set_password(data.get('password'))
 
     db.session.add(user)
     db.session.commit()
