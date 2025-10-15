@@ -7,6 +7,8 @@ class User(db.Model):
     email = db.Column(db.String(255), nullable=False)
     password_hash = db.Column(db.String(128))
 
+    messages = db.relationship('Message', backref='user', lazy=True)
+    
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
